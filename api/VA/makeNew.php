@@ -4,9 +4,14 @@ include_once("../../database/virtual_account.php");
 header('Content-Type: application/json'); // set type ke json
 
 if($_SERVER["REQUEST_METHOD"] == "POST") { // untuk membuat virtual akun, gunakan method post
+    $json_data = file_get_contents('php://input');
+    
+    // Decode JSON data
+    $json_decode = json_decode($json_data, true);
+
     // tangkap data form
-    $account_id = $_POST["account_id"];
-    $amount = $_POST["amount"];
+    $account_id = $json_decode["account_id"];
+    $amount = $json_decode["amount"];
 
     // buat koneksi
     $conn = db_connect();
