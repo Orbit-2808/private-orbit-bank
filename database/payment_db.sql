@@ -68,7 +68,7 @@ CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `username` varchar(65) NOT NULL,
   `email` varchar(65) NOT NULL,
-  `password` varchar(33) NOT NULL
+  `password` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -76,7 +76,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`) VALUES
-(1, 'rumkit_orbit_2808', 'orbit_2808@rumkit.com', 'orbit_2808');
+(1, 'rumkit_orbit_2808', 'orbit_2808@rumkit.com', '8c089a26a2e18853349a708039aa39d2d7abf306284b894d7ec1224d'); 
+-- Real Password: orbit_2808
 
 -- --------------------------------------------------------
 
