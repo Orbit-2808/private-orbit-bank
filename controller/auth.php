@@ -59,6 +59,7 @@ function register($username, $email, $password) {
     
         $query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', SHA2('$password', 224))";
         $result = mysqli_query($conn, $query);
+        mysqli_close($conn);
     }
     $sessionCondition = login($username, $password);
     return $sessionCondition;
