@@ -4,6 +4,8 @@
  * Cukup gunakan apabila diperlukan saja
  * Hindari pengubahan pada fitur ini demi keamanan data
  */
+include_once($_SERVER['DOCUMENT_ROOT'] . "/database/database.php");
+
 enum SessionCondtion {
     case loggedIn;
     case unLoggedIn;
@@ -20,7 +22,6 @@ function isLoggedIn() {
 
 function login($username, $password) {
     if ($_SESSION["condition"] != SessionCondtion::loggedIn) {
-        include_once($_SERVER['DOCUMENT_ROOT'] . "/database/database.php");
         $conn = db_connect();
     
         $query = "SELECT users.* FROM users INNER JOIN accounts ON users.user_id = accounts.user_id
@@ -55,7 +56,6 @@ function logout() {
 
 function register($name, $address, $username, $email, $password) {
     if ($_SESSION["condition"] != SessionCondtion::loggedIn) {
-        include_once($_SERVER['DOCUMENT_ROOT'] . "/database/database.php");
         $conn = db_connect();
         
         $query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', SHA2('$password', 224))";
