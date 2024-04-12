@@ -23,7 +23,8 @@ function login($username, $password) {
         include_once($_SERVER['DOCUMENT_ROOT'] . "/database/database.php");
         $conn = db_connect();
     
-        $query = "SELECT * FROM users WHERE username = '$username' AND password = SHA2('$password', 224)";
+        $query = "SELECT users.* FROM users INNER JOIN accounts ON users.user_id = accounts.user_id
+                    WHERE username = '$username' AND password = SHA2('$password', 224)";
     
         $result = mysqli_query($conn, $query);
     
@@ -52,15 +53,26 @@ function logout() {
     $_SESSION["condition"] = SessionCondtion::unLoggedIn;
 }
 
-function register($username, $email, $password) {
+function register($name, $address, $username, $email, $password) {
     if ($_SESSION["condition"] != SessionCondtion::loggedIn) {
         include_once($_SERVER['DOCUMENT_ROOT'] . "/database/database.php");
         $conn = db_connect();
-    
+        
         $query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', SHA2('$password', 224))";
         $result = mysqli_query($conn, $query);
+
+        if($result) {
+            $userId = mysqli_insert_id($conn);
+            echo($userId);
+
+            $accountNumber = $userId; // just fake it, so i use user id
+
+            $query = "INSERT INTO accounts (user_id, name, address, account_number) VALUES ($userId, '$name', '$address', '$accountNumber')";
+            $result = mysqli_query($conn, $query);
+        }
         mysqli_close($conn);
     }
+    
     $sessionCondition = login($username, $password);
     return $sessionCondition;
 }
