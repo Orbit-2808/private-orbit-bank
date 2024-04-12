@@ -21,6 +21,10 @@ SET time_zone = "+00:00";
 -- Database: `payment_db`
 --
 
+DROP DATABASE IF EXISTS payment_db;
+CREATE DATABASE payment_db;
+USE payment_db;
+
 -- --------------------------------------------------------
 
 --
