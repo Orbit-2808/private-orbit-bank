@@ -40,7 +40,7 @@ switch ($submitValue) {
         $sessionCond = isLoggedIn();
         if ($sessionCond == SessionCondtion::loggedIn) {
             logout();
-            header("Location: ../");
+            header("Location: /");
             die();
         } else {
             echo "Cannot logout";

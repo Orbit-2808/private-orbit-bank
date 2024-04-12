@@ -42,40 +42,42 @@ function _getCurrentBalance($accountId, $conn) {
 
     $query = "SELECT balance
                 FROM balances
-                WHERE account_id = '$accountId'
+                WHERE account_id = $accountId
                 ORDER BY balances.record_date DESC
                 LIMIT 1";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
         $temp = mysqli_fetch_assoc($result);
-        $accountId = $temp["account_id"];
+        $balance = $temp["balance"];
     } else {
-        $accountId = -1;
+        $balance = 0;
     }
 
-    return $accountId;
+    return $balance;
 }
 
 function _recordNewBalance($accountId, $amount, $transactionType, $conn) {
     $previousBalance = _getCurrentBalance($accountId, $conn);
-    
+
     switch ($transactionType) {
         case TransactionType::debit:
             $currentBalance = $previousBalance - $amount;
             $query = "INSERT INTO balances (balances.account_id, debit, balance)
                         VALUES($accountId, $amount, $currentBalance)";
             break;
+
         case TransactionType::credit:
-            $currentBalance = $previousBalance + $amount;
-            $query = "INSERT INTO balances (balances.account_id, credit, balance)
+                $currentBalance = $previousBalance + $amount;
+                $query = "INSERT INTO balances (balances.account_id, credit, balance)
                         VALUES($accountId, $amount, $currentBalance)";
             break;
+
         default:
             echo "Wrong Type";
             break;
     }
-    
+        
     $result = mysqli_query($conn, $query);
     return mysqli_insert_id($conn);
 }
@@ -86,7 +88,6 @@ function getBalanceRecords($accountNumber) {
     
     $query = "SELECT record_date, debit, credit, balance
                 FROM balances
-                INNER JOIN accounts ON balances.balance_id = accounts.account_id
                 WHERE balances.account_id = $accountId";
     
     $result = mysqli_query($conn, $query);
@@ -113,18 +114,18 @@ function saveMoney($accountNumber, $amount) {
     return $savingsId;
 }
 
-function withdrawMoney() {}
+function withdrawMoney($accountNumber, $amount) {}
 
-function transferBeetweenAccounts($senderAccountNumber, $receiveAccountNumber, $mount) {
+function transferBeetweenAccounts($senderAccountNumber, $receiverAccountNumber, $mount) {
     $conn = db_connect();
     $senderAccountId = _getAccountId($senderAccountNumber, $conn);
-    $receiveAccountId = _getAccountId($receiveAccountNumber, $conn);
+    $receiverAccountId = _getAccountId($receiverAccountNumber, $conn);
 
-    if($senderAccountId != -1 && $receiveAccountId != -1) {
+    if($senderAccountId != -1 && $receiverAccountId != -1) {
         $senderBalanceId = _recordNewBalance($senderAccountId, $mount, TransactionType::debit, $conn);
-        $receiveBalanceId = _recordNewBalance($receiveAccountId, $mount, TransactionType::credit, $conn);
-        $query = "INSERT INTO transfers (sender_balance_id, receive_balance_id)
-                    VALUES($senderBalanceId, $receiveBalanceId)";
+        $receiverBalanceId = _recordNewBalance($receiverAccountId, $mount, TransactionType::credit, $conn);
+        $query = "INSERT INTO transfers (sender_balance_id, receiver_balance_id)
+                    VALUES($senderBalanceId, $receiverBalanceId)";
         $result = mysqli_query($conn, $query);
         $transferId = mysqli_insert_id($conn);
     } else {

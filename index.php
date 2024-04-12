@@ -56,21 +56,23 @@ include("module/transaction.php");
         <tr>
             <td style="padding: 0px 20px 0px 20px;">
                 <h3>Saving Form</h3>
-                <form action="" method="post">
+                <form action="transaction.php" method="post">
+                    <input type="hidden" name="account_number" value="<?=$profile["account_number"]?>">
                     <label for="amount">Amount</label><br/>
                     <input type="number" name="amount" id="saving_amount"><br/><br/>
-                    <input type="submit" value="Save">
-                    <input type="submit" value="Withdraw">
+                    <input type="submit" name="submit" value="Save">
+                    <input type="submit" name="submit" value="Withdraw">
                 </form><br/>
             </td>
             <td style="padding: 0px 20px 0px 20px;">
                 <h3>Transfer Form</h3>
-                <form action="" method="post">
-                    <label for="account_number">Account Number</label><br/>
-                    <input type="text" name="account_number" id="transfer_account_number"><br/><br/>
+                <form action="transaction.php" method="post">
+                    <input type="hidden" name="sender_account_number" value="<?=$profile["account_number"]?>">
+                    <label for="receiver_account_number">Account Number</label><br/>
+                    <input type="text" name="receiver_account_number" id="transfer_receiver_account_number"><br/><br/>
                     <label for="amount">Amount</label><br/>
                     <input type="number" name="amount" id="transfer_amount"><br/><br/>
-                    <input type="submit" value="Transfer">
+                    <input type="submit" name="submit" value="Transfer">
                 </form><br/>
             </td>
         </tr>
@@ -96,7 +98,7 @@ include("module/transaction.php");
             <td style="padding: 0px 20px 0px 20px;"><?=$balance["record_date"]?></td>
             <td style="padding: 0px 20px 0px 20px;">Rp. <?=number_format($balance["debit"], 2, ",", ".")?></td>
             <td style="padding: 0px 20px 0px 20px;">Rp. <?=number_format($balance["credit"], 2, ",", ".")?></td>
-            <td style="padding: 0px 20px 0px 20px;">Rp. <?=number_format($balance["debit"], 2, ",", ".")?></td>
+            <td style="padding: 0px 20px 0px 20px;">Rp. <?=number_format($balance["balance"], 2, ",", ".")?></td>
         </tr>
         <?php
         }
