@@ -1,6 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . "/database/database.php");
-include_once($_SERVER['DOCUMENT_ROOT'] . "/module/transaction.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . "/controller/transaction.php");
 
 function generateVirtualAccountNumber($receiverAccountNumber) {
     // concat date and receiver account number to get virtual account number

@@ -7,7 +7,7 @@
  * 
  */
 
-include_once($_SERVER['DOCUMENT_ROOT'] . "/module/virtual_account.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . "/controller/virtual_account.php");
 
 // make connection to db
 $conn = db_connect();

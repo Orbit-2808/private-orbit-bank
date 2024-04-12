@@ -1,7 +1,7 @@
 <?php
 
-include("module/auth.php");
-include("module/transaction.php");
+include("controller/auth.php");
+include("controller/transaction.php");
 
 ?>
 <!DOCTYPE html>

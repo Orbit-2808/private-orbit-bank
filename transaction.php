@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . "/module/transaction.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . "/controller/transaction.php");
 
 // run if allowed http method
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
