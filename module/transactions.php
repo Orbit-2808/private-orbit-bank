@@ -1,42 +1,22 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . "/database/database.php");
-$conn = db_connect();
 
 enum TransactionType {
     case debit;
     case credit;
 }
 
-function _getProfile($accountId, $conn) {
-    $query = "SELECT name, address, email
+function getProfile($username) {
+    $conn = db_connect();
+    $query = "SELECT name, address, email, account_number
                 FROM accounts
                 INNER JOIN users ON accounts.user_id = users.user_id
-                WHERE accounts.account_id = $accountId";
+                WHERE users.username = '$username'";
     
     $result = mysqli_query($conn, $query);
 
     if($result) {
-        while($temp = mysqli_fetch_assoc($result)) {
-            $row[] = $temp;
-        }
-    }
-
-    mysqli_close($conn);
-    return $row;
-}
-
-function _getBalanceRecords($accountId, $conn) {
-    $query = "SELECT record_date, debit, credit, balance
-                FROM balances
-                INNER JOIN accounts ON balances.balance_id = accounts.account_id
-                WHERE balances.account_id = $accountId";
-    
-    $result = mysqli_query($conn, $query);
-
-    if($result) {
-        while($temp = mysqli_fetch_assoc($result)) {
-            $row[] = $temp;
-        }
+        $row = mysqli_fetch_assoc($result);
     }
 
     mysqli_close($conn);
@@ -58,7 +38,7 @@ function _getAccountId($accountNumber, $conn) {
 }
 
 function _getCurrentBalance($accountId, $conn) {
-    global $conn;
+    $conn = db_connect();
 
     $query = "SELECT balance
                 FROM balances
@@ -100,8 +80,29 @@ function _recordNewBalance($accountId, $amount, $transactionType, $conn) {
     return mysqli_insert_id($conn);
 }
 
+function getBalanceRecords($accountNumber) {
+    $conn = db_connect();
+    $accountId = _getAccountId($accountNumber, $conn);
+    
+    $query = "SELECT record_date, debit, credit, balance
+                FROM balances
+                INNER JOIN accounts ON balances.balance_id = accounts.account_id
+                WHERE balances.account_id = $accountId";
+    
+    $result = mysqli_query($conn, $query);
+
+    if($result) {
+        while($temp = mysqli_fetch_assoc($result)) {
+            $row[] = $temp;
+        }
+    }
+
+    mysqli_close($conn);
+    return $row;
+}
+
 function saveMoney($accountNumber, $amount) {
-    global $conn;
+    $conn = db_connect();
     $accountId = _getAccountId($accountNumber, $conn);
     $balanceId = _recordNewBalance($accountId, $amount, TransactionType::credit, $conn);
     $query = "INSERT INTO savings (balance_id, type)
@@ -115,7 +116,7 @@ function saveMoney($accountNumber, $amount) {
 function withdrawMoney() {}
 
 function transferBeetweenAccounts($senderAccountNumber, $receiveAccountNumber, $mount) {
-    global $conn;
+    $conn = db_connect();
     $senderAccountId = _getAccountId($senderAccountNumber, $conn);
     $receiveAccountId = _getAccountId($receiveAccountNumber, $conn);
 
