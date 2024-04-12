@@ -20,16 +20,26 @@ switch ($_SERVER["REQUEST_METHOD"]) {
      * response :
      */
     case "POST":
-        $json_data = file_get_contents('php://input');
+        $jsonData = file_get_contents('php://input');
     
         // decode JSON data
-        $json_data_decode = json_decode($json_data, true);
+        $jsonDataDecode = json_decode($jsonData, true);
 
         // get data from json data decode
-        $account_id = $json_data_decode["account_id"];
-        $amount = $json_data_decode["amount"];
+        $receiveAccountId = $jsonDataDecode["receive_account_id"];
+        $amount = $jsonDataDecode["amount"];
+        $information = $jsonDataDecode["information"];
+        
+        // make virtual akun
+        $dataTemp = createVirtualAccount($receiveAccountId, $amount, $information);
 
-        $data = create_virtual_account($conn, $account_id, $amount);    // make virtual akun
+        // dont expose all data
+        $data = [
+            "virtual_account_number" => $dataTemp["virtual_account_number"],
+            "amount" => (int) $dataTemp["amount"],
+            "creation_datetime" => $dataTemp["creation_datetime"],
+            "expired_date" => $dataTemp["creation_datetime"],
+        ];
         break;
 
 
@@ -41,9 +51,10 @@ switch ($_SERVER["REQUEST_METHOD"]) {
      * 
      */
     case "GET":
-        $virtual_account_number = $_GET["virtual_account_number"];
-        if (empty($virtual_account_number) == false) {
-            $data = get_virtual_account_data($conn, $virtual_account_number);       // get data
+        $virtualAccountNumber = $_GET["virtual_account_number"];
+        if (empty($virtualAccountNumber) == false) {
+            // get data
+            $data = getVirtualAccountData($virtualAccountNumber);
         } else {
             // send error data
             $data = array(

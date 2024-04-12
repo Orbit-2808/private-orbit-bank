@@ -128,9 +128,23 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`) VALUES
 
 CREATE TABLE `virtual_accounts` (
   `virtual_account_id` int(11) NOT NULL,
-  `balance_id` int(11) NOT NULL,
-  `virtual_account_number` varchar(16) NOT NULL,
-  `creation_datetime` datetime NOT NULL DEFAULT current_timestamp()
+  `receiver_account_id` int(11) NOT NULL,
+  `virtual_account_number` varchar(256) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `information` varchar(256) NOT NULL,
+  `creation_datetime` datetime NOT NULL DEFAULT current_timestamp(),
+  `expired_date` datetime NOT NULL,
+  `transaction_conditon` enum('waiting for transaction','due date','canceled','successful') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `virtual_account_transactions`
+--
+
+CREATE TABLE `virtual_account_transactions` (
+  `virtual_account_transaction_id` int(11) NOT NULL,
+  `virtual_account_id` int(11) NOT NULL,
+  `balance_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -181,6 +195,14 @@ ALTER TABLE `users`
 ALTER TABLE `virtual_accounts`
   ADD PRIMARY KEY (`virtual_account_id`),
   ADD UNIQUE KEY `virtual_account_number` (`virtual_account_number`),
+  ADD KEY `virtual_accounts_ibfk_1` (`receiver_account_id`);
+
+--
+-- Indexes for table `virtual_account_transactions`
+--
+ALTER TABLE `virtual_account_transactions`
+  ADD PRIMARY KEY (`virtual_account_transaction_id`),
+  ADD KEY `virtual_account_id` (`virtual_account_id`),
   ADD KEY `balance_id` (`balance_id`);
 
 --
@@ -197,7 +219,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `balances`
 --
 ALTER TABLE `balances`
-  MODIFY `balance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `balance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `savings`
@@ -221,7 +243,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `virtual_accounts`
 --
 ALTER TABLE `virtual_accounts`
-  MODIFY `virtual_account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `virtual_account_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `virtual_account_transactions`
+--
+ALTER TABLE `virtual_account_transactions`
+  MODIFY `virtual_account_transaction_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -256,7 +284,14 @@ ALTER TABLE `transfers`
 -- Constraints for table `virtual_accounts`
 --
 ALTER TABLE `virtual_accounts`
-  ADD CONSTRAINT `virtual_accounts_ibfk_1` FOREIGN KEY (`balance_id`) REFERENCES `balances` (`balance_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `virtual_accounts_ibfk_1` FOREIGN KEY (`receiver_account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `virtual_account_transactions`
+--
+ALTER TABLE `virtual_account_transactions`
+  ADD CONSTRAINT `virtual_account_transactions_ibfk_1` FOREIGN KEY (`virtual_account_id`) REFERENCES `virtual_accounts` (`virtual_account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `virtual_account_transactions_ibfk_2` FOREIGN KEY (`balance_id`) REFERENCES `balances` (`balance_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
