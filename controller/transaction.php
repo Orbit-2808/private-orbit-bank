@@ -7,7 +7,7 @@ enum TransactionType {
 }
 
 function getProfile($username) {
-    $conn = db_connect();
+    $conn = dbConnect();
     $query = "SELECT name, address, email, account_number
                 FROM accounts
                 INNER JOIN users ON accounts.user_id = users.user_id
@@ -38,7 +38,7 @@ function _getAccountId($accountNumber, $conn) {
 }
 
 function _getCurrentBalance($accountId, $conn) {
-    $conn = db_connect();
+    $conn = dbConnect();
 
     $query = "SELECT balance
                 FROM balances
@@ -83,7 +83,7 @@ function _recordNewBalance($accountId, $amount, $transactionType, $conn) {
 }
 
 function getBalanceRecords($accountNumber) {
-    $conn = db_connect();
+    $conn = dbConnect();
     $accountId = _getAccountId($accountNumber, $conn);
     
     $query = "SELECT record_date, debit, credit, balance
@@ -103,7 +103,7 @@ function getBalanceRecords($accountNumber) {
 }
 
 function saveMoney($accountNumber, $amount) {
-    $conn = db_connect();
+    $conn = dbConnect();
     $accountId = _getAccountId($accountNumber, $conn);
     $balanceId = _recordNewBalance($accountId, $amount, TransactionType::credit, $conn);
     $query = "INSERT INTO savings (balance_id, type)
@@ -117,7 +117,7 @@ function saveMoney($accountNumber, $amount) {
 function withdrawMoney($accountNumber, $amount) {}
 
 function transferBeetweenAccounts($senderAccountNumber, $receiverAccountNumber, $mount) {
-    $conn = db_connect();
+    $conn = dbConnect();
     $senderAccountId = _getAccountId($senderAccountNumber, $conn);
     $receiverAccountId = _getAccountId($receiverAccountNumber, $conn);
 

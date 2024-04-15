@@ -18,12 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `payment_db`
+-- Database: `orbit_bank_db`
 --
-
-DROP DATABASE IF EXISTS payment_db;
-CREATE DATABASE payment_db;
-USE payment_db;
 
 -- --------------------------------------------------------
 

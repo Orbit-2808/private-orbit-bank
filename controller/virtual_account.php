@@ -13,7 +13,7 @@ function generateVirtualAccountNumber($receiverAccountNumber) {
 }
 
 function getVirtualAccountData($request) {
-    $conn = db_connect();
+    $conn = dbConnect();
     $sql = "SELECT virtual_account_id, receiver_account_id, amount, information, creation_datetime, expired_date, transaction_conditon
             FROM virtual_accounts
             WHERE virtual_account_number = '{$request["virtual_account_number"]}'";
@@ -24,7 +24,7 @@ function getVirtualAccountData($request) {
 }
 
 function createVirtualAccount($request) {
-    $conn = db_connect();
+    $conn = dbConnect();
 
     // get data needed
     $account_id = _getAccountId($request["receiver_account_number"], $conn);
@@ -50,7 +50,7 @@ function createVirtualAccount($request) {
 }
 
 function editVirtualAccount($request, $virtualAccount) {
-    $conn = db_connect();
+    $conn = dbConnect();
 
     $virtualAccountData = getVirtualAccountData($virtualAccount);
     

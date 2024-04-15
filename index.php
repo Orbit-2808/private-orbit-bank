@@ -1,7 +1,7 @@
 <?php
 
-include("controller/auth.php");
-include("controller/transaction.php");
+include($_SERVER['DOCUMENT_ROOT'] . "controller/auth.php");
+include($_SERVER['DOCUMENT_ROOT'] . "controller/transaction.php");
 
 ?>
 <!DOCTYPE html>
