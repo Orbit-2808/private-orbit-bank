@@ -1,8 +1,6 @@
 <?php
-$folderName = "private-obrit-bank"; // change to folder name
-$rootPath = $_SERVER['DOCUMENT_ROOT'] . "/" . $folderName;
-include_once($rootPath . "/controller/auth.php");
-include_once($rootPath. "/controller/transaction.php");
+include_once(__DIR__ . "/controller/auth.php");
+include_once(__DIR__ . "/controller/transaction.php");
 
 ?>
 <!DOCTYPE html>
