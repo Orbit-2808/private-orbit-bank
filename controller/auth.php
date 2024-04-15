@@ -4,7 +4,7 @@
  * Cukup gunakan apabila diperlukan saja
  * Hindari pengubahan pada fitur ini demi keamanan data
  */
-include_once($_SERVER['DOCUMENT_ROOT'] . "/database/database.php");
+include_once(__DIR__ . "/database/database.php");
 
 enum SessionCondtion {
     case loggedIn;
