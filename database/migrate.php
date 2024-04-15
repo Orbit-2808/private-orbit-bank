@@ -1,5 +1,5 @@
 <?php
-include_once("database.php");
+include_once("orbit_bank_db.php");
 
 // set environment variables
 setEnvironmentVariables();

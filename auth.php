@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . "/controller/auth.php");
+include_once("controller/auth.php");
 
 // get submit value
 if ($_SERVER["REQUEST_METHOD"] == "POST") $submitValue = $_POST["submit"];

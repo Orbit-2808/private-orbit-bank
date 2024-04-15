@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . "/controller/transaction.php");
+include_once("controller/transaction.php");
 
 // run if allowed http method
 if ($_SERVER["REQUEST_METHOD"] != "POST") {

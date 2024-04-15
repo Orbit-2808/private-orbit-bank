@@ -4,7 +4,7 @@
  * Cukup gunakan apabila diperlukan saja
  * Hindari pengubahan pada fitur ini demi keamanan data
  */
-include_once(__DIR__ . "/database/database.php");
+include_once("database/orbit_bank_db.php");
 
 enum SessionCondtion {
     case loggedIn;

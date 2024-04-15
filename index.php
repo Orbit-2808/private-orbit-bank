@@ -1,6 +1,6 @@
 <?php
-include_once(__DIR__ . "/controller/auth.php");
-include_once(__DIR__ . "/controller/transaction.php");
+include_once("controller/auth.php");
+include_once("controller/transaction.php");
 
 ?>
 <!DOCTYPE html>

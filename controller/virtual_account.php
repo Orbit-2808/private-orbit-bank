@@ -1,12 +1,12 @@
 <?php
-include_once(__DIR__ . "/database/database.php");
-include_once(__DIR__ . "/controller/transaction.php");
+include_once("database/orbit_bank_db.php");
+include_once("controller/transaction.php");
 
 function generateVirtualAccountNumber($receiverAccountNumber) {
     // concat date and receiver account number to get virtual account number
     $virtualAccountNumber = date("YmdHis") . $receiverAccountNumber;
 
-    // erase head of year: like 19, 20.
+    // erase headpas of year: like 19, 20.
     $virtualAccountNumber = substr($virtualAccountNumber, 2);
 
     return $virtualAccountNumber;
