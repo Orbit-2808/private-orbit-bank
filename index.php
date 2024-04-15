@@ -1,7 +1,8 @@
 <?php
-
-include_once($_SERVER['DOCUMENT_ROOT'] . "/controller/auth.php");
-include_once($_SERVER['DOCUMENT_ROOT'] . "/controller/transaction.php");
+$folderName = "private-obrit-bank"; // change to folder name
+$rootPath = $_SERVER['DOCUMENT_ROOT'] . "/" . $folderName;
+include_once($rootPath . "/controller/auth.php");
+include_once($rootPath. "/controller/transaction.php");
 
 ?>
 <!DOCTYPE html>
@@ -10,6 +11,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . "/controller/transaction.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <?php
@@ -138,5 +140,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . "/controller/transaction.php");
                 break;
             }
     ?>
+
+    <script src="/register.js"></script>
 </body>
 </html>
