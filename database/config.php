@@ -1,14 +1,14 @@
 <?php
-function setEnvironmentVariables() {
+function setEnvironmentVariables($databaseName) {
     $_ENV["DATABASE_HOST"] = "localhost:3307";
     $_ENV["DATABASE_USER"] = "root";
     $_ENV["DATABASE_PASSWORD"] = "";
-    $_ENV["DATABASE_NAME"] = "orbit_bank_db";
+    $_ENV["DATABASE_NAME"] = $databaseName;
 }
 
-function dbConnect() {
+function dbConnect($databaseName) {
     // set environment variables
-    setEnvironmentVariables();
+    setEnvironmentVariables($databaseName);
     
     // Create connection
     $conn = mysqli_connect($_ENV["DATABASE_HOST"], $_ENV["DATABASE_USER"], $_ENV["DATABASE_PASSWORD"], $_ENV["DATABASE_NAME"]);

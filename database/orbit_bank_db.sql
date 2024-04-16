@@ -31,7 +31,7 @@ CREATE TABLE `accounts` (
   `account_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `name` varchar(256) NOT NULL,
-  `address` varchar(65) NOT NULL,
+  `address` varchar(256) NOT NULL,
   `account_number` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -40,7 +40,7 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`account_id`, `user_id`, `name`, `address`, `account_number`) VALUES
-(1, 1, 'Rumah Sakit Kitsakit', 'Geger Kalong', '123456789');
+(1, 1, 'Rumah Sakit Kitsakit', 'Jalan Dr. Setiabudi No.229;32;3273;Sukasari;Isola', '123456789');
 
 -- --------------------------------------------------------
 
@@ -209,19 +209,19 @@ ALTER TABLE `virtual_account_transactions`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `balances`
 --
 ALTER TABLE `balances`
-  MODIFY `balance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `balance_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `savings`
 --
 ALTER TABLE `savings`
-  MODIFY `saving_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `saving_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transfers`
@@ -233,7 +233,7 @@ ALTER TABLE `transfers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `virtual_accounts`

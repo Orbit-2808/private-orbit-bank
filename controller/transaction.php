@@ -1,5 +1,5 @@
 <?php
-include_once("database/orbit_bank_db.php");
+include_once("database/config.php");
 
 enum TransactionType {
     case debit;
@@ -7,20 +7,52 @@ enum TransactionType {
 }
 
 function getProfile($username) {
-    $conn = dbConnect();
+    // get profile from orbit_bank
+    $orbitBankConn = dbConnect("orbit_bank_db");
     $query = "SELECT name, address, email, account_number
                 FROM accounts
                 INNER JOIN users ON accounts.user_id = users.user_id
                 WHERE users.username = '$username'";
     
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($orbitBankConn, $query);
 
     if($result) {
-        $row = mysqli_fetch_assoc($result);
-    }
+        // close connection if not used
+        $profile = mysqli_fetch_assoc($result);
+        mysqli_close($orbitBankConn);
 
-    mysqli_close($conn);
-    return $row;
+        // get regional name because address in profile contain id
+        $tempAddress = explode(';', $profile["address"]); // explode to make easier identify id
+
+        $indonesianRegionalConn = dbConnect("indonesian_regional_db");
+        $regencyId = (int) $tempAddress[2];
+
+        $query = "SELECT
+                provinces.name AS province_name,
+                regencies.name AS regency_name
+                FROM provinces
+                INNER JOIN regencies ON regencies.province_id = provinces.id
+                WHERE regencies.id = $regencyId";
+
+        $result = mysqli_query($indonesianRegionalConn, $query);
+        
+        if($result) {
+            $indonesianRegional = mysqli_fetch_assoc($result);
+            $tempAddress[1] = $indonesianRegional["province_name"];
+            $tempAddress[2] = $indonesianRegional["regency_name"];
+        }
+
+        // restructure address
+        $slicePrevReversedAddress = array_slice($tempAddress, 0, 1);
+        $prevReversedAddress = array_slice($tempAddress, 1);
+        $reversedAddress = array_reverse($prevReversedAddress);
+        $mergeAddress = array_merge($slicePrevReversedAddress, $reversedAddress);
+
+        $profile["address"] = implode(', ', $mergeAddress);
+    }
+    mysqli_close($indonesianRegionalConn);
+    
+    return $profile;
 }
 
 function _getAccountId($accountNumber, $conn) {
@@ -38,7 +70,7 @@ function _getAccountId($accountNumber, $conn) {
 }
 
 function _getCurrentBalance($accountId, $conn) {
-    $conn = dbConnect();
+    $conn = dbConnect("orbit_bank_db");
 
     $query = "SELECT balance
                 FROM balances
@@ -83,7 +115,7 @@ function _recordNewBalance($accountId, $amount, $transactionType, $conn) {
 }
 
 function getBalanceRecords($accountNumber) {
-    $conn = dbConnect();
+    $conn = dbConnect("orbit_bank_db");
     $accountId = _getAccountId($accountNumber, $conn);
     
     $query = "SELECT record_date, debit, credit, balance
@@ -103,7 +135,7 @@ function getBalanceRecords($accountNumber) {
 }
 
 function saveMoney($accountNumber, $amount) {
-    $conn = dbConnect();
+    $conn = dbConnect("orbit_bank_db");
     $accountId = _getAccountId($accountNumber, $conn);
     $balanceId = _recordNewBalance($accountId, $amount, TransactionType::credit, $conn);
     $query = "INSERT INTO savings (balance_id, type)
@@ -117,7 +149,7 @@ function saveMoney($accountNumber, $amount) {
 function withdrawMoney($accountNumber, $amount) {}
 
 function transferBeetweenAccounts($senderAccountNumber, $receiverAccountNumber, $mount) {
-    $conn = dbConnect();
+    $conn = dbConnect("orbit_bank_db");
     $senderAccountId = _getAccountId($senderAccountNumber, $conn);
     $receiverAccountId = _getAccountId($receiverAccountNumber, $conn);
 

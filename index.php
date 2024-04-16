@@ -29,7 +29,7 @@ include_once("controller/transaction.php");
         ?>
         
         <!-- Account -->
-        <form action="/auth.php" method="get"><button type="submit" class="btn btn-primary" name="submit" value="Logout">Submit</button></form><br><br/>
+        <form action="/auth.php" method="get"><input type="submit" class="btn btn-primary" name="submit" value="Logout"></form><br>
         <table>
             <tr>
                 <td style="padding: 0px 20px 0px 0px;">Name</td>
@@ -51,8 +51,8 @@ include_once("controller/transaction.php");
                 <td style="padding: 0px 20px 0px 20px;">:</td>
                 <td style="padding: 0px 20px 0px 20px;"><?=$profile["account_number"]?></td>
             </tr>
-        </table>
-        <br/>
+        </table><br/>
+        
 
         <table border="1">
             <tr>
@@ -62,9 +62,9 @@ include_once("controller/transaction.php");
                         <input type="hidden" name="account_number" value="<?=$profile["account_number"]?>">
                         <label for="amount">Amount</label><br/>
                         <input type="number" name="amount" id="saving_amount"><br/>
-                        <button type="submit" class="btn btn-primary" name="submit" value="Save">Submit</button>
-                        <button type="submit" class="btn btn-primary" name="submit" value="Withdraw">Submit</button>
-                    </form><br/>
+                        <input type="submit" class="btn btn-primary" name="submit" value="Save">
+                        <input type="submit" class="btn btn-primary" name="submit" value="Withdraw">
+                    </form>
                 </td>
                 <td style="padding: 0px 20px 0px 20px;">
                     <h3>Transfer Form</h3>
@@ -74,12 +74,12 @@ include_once("controller/transaction.php");
                         <input type="text" name="receiver_account_number" id="transfer_receiver_account_number"><br/>
                         <label for="amount">Amount</label><br/>
                         <input type="number" name="amount" id="transfer_amount"><br/>
-                        <button type="submit" class="btn btn-primary" name="submit" value="Transfer">Submit</button>
-                    </form><br/>
+                        <input type="submit" class="btn btn-primary" name="submit" value="Transfer">
+                    </form>
                 </td>
             </tr>
-        </table>
-        <br/>
+        </table><br/>
+        
 
         <!-- Balances -->
         <table border="1">
@@ -114,42 +114,42 @@ include_once("controller/transaction.php");
         ?>
         <h2>Log In</h2>
         <form action="/auth.php" method="post">
-            <label for="username" class="form-label">username</label><br/>
-            <input type="text" class="form-control" name="username" id="login_username"><br/>
-            <label for="password" class="form-label">password</label><br/>
-            <input type="password" class="form-control" name="password" id="login_password"><br/>
-            <button type="submit" class="btn btn-primary" name="submit" value="Login">Submit</button>
+            <label for="username" class="form-label">username</label>
+            <input type="text" class="form-control" name="username" id="login_username">
+            <label for="password" class="form-label">password</label>
+            <input type="password" class="form-control" name="password" id="login_password">
+            <input type="submit" class="btn btn-primary" name="submit" value="Login">
         </form>
 
-        <br/>
+        
         <h2>Register</h2>
     
-        <form action="/auth.php" method="post">
-            <label for="name" class="form-label">name</label><br/>
-            <input type="text" class="form-control" name="name" id="register_name"><br/>
+        <form method="post" action="register.php">
+            <label for="name" class="form-label">name</label>
+            <input type="text" class="form-control" name="name" id="register_name">
 
-            <label for="jalan" class="form-label" id="lbl_jalan">jalan</label><br/>
-            <input type="text" class="form-control" name="jalan" id="register_jalan"><br/>
+            <label for="jalan" class="form-label" id="lbl_jalan">jalan</label>
+            <input type="text" class="form-control" name="address[jalan]" id="register_jalan">
 
-            <label for="provinsi" class="form-label" id="lbl_provinsi">provinsi</label><br/>
-            <select class="form-control" name="provinsi" id="register_provinsi"></select><br/>
+            <label for="provinsi" class="form-label" id="lbl_provinsi">provinsi</label>
+            <select class="form-control" name="address[provinsi]" id="register_provinsi"></select>
 
-            <label for="kabupaten" class="form-label" id="lbl_kabupaten">kabupaten/kota</label><br/>
-            <select class="form-control" name="kabupaten" id="register_kabupaten"></select><br/>
+            <label for="kabupaten" class="form-label" id="lbl_kabupaten">kabupaten/kota</label>
+            <select class="form-control" name="address[kabupaten]" id="register_kabupaten"></select>
 
-            <label for="kecamatan" class="form-label" id="lbl_kecamatan">kecamatan</label><br/>
-            <input type="text" class="form-control" name="kecamatan" id="register_kecamatan"><br/>
+            <label for="kecamatan" class="form-label" id="lbl_kecamatan">kecamatan</label>
+            <input type="text" class="form-control" name="address[kecamatan]" id="register_kecamatan">
 
-            <label for="kelurahan" class="form-label" id="lbl_kelurahan">kelurahan</label><br/>
-            <input type="text" class="form-control" name="kelurahan" id="register_kelurahan"><br/>
+            <label for="kelurahan" class="form-label" id="lbl_kelurahan">kelurahan</label>
+            <input type="text" class="form-control" name="address[kelurahan]" id="register_kelurahan">
 
-            <label for="username" class="form-label">username</label><br/>
-            <input type="text" class="form-control" name="username" id="register_username"><br/>
-            <label for="email" class="form-label">email</label><br/>
-            <input type="text" class="form-control" name="email" id="register_email"><br/>
-            <label for="password" class="form-label">password</label><br/>
-            <input type="password" class="form-control" name="password" id="register_password"><br/>
-            <button type="submit" class="btn btn-primary" name="submit" value="Register">Submit</button>
+            <label for="username" class="form-label">username</label>
+            <input type="text" class="form-control" name="username" id="register_username">
+            <label for="email" class="form-label">email</label>
+            <input type="text" class="form-control" name="email" id="register_email">
+            <label for="password" class="form-label">password</label>
+            <input type="password" class="form-control" name="password" id="register_password">
+            <input type="submit" class="btn btn-primary" name="submit" value="Register">
         </form>
         <?php
                     break;

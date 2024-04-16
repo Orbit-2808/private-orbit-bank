@@ -1,5 +1,5 @@
 <?php
-include_once("database/orbit_bank_db.php");
+include_once("database/config.php");
 include_once("controller/transaction.php");
 
 function generateVirtualAccountNumber($receiverAccountNumber) {
@@ -13,7 +13,7 @@ function generateVirtualAccountNumber($receiverAccountNumber) {
 }
 
 function getVirtualAccountData($request) {
-    $conn = dbConnect();
+    $conn = dbConnect("orbit_bank_db");
     $sql = "SELECT virtual_account_id, receiver_account_id, amount, information, creation_datetime, expired_date, transaction_conditon
             FROM virtual_accounts
             WHERE virtual_account_number = '{$request["virtual_account_number"]}'";
@@ -24,7 +24,7 @@ function getVirtualAccountData($request) {
 }
 
 function createVirtualAccount($request) {
-    $conn = dbConnect();
+    $conn = dbConnect("orbit_bank_db");
 
     // get data needed
     $account_id = _getAccountId($request["receiver_account_number"], $conn);
@@ -50,7 +50,7 @@ function createVirtualAccount($request) {
 }
 
 function editVirtualAccount($request, $virtualAccount) {
-    $conn = dbConnect();
+    $conn = dbConnect("orbit_bank_db");
 
     $virtualAccountData = getVirtualAccountData($virtualAccount);
     

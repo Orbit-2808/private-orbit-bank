@@ -4,7 +4,7 @@
  * Cukup gunakan apabila diperlukan saja
  * Hindari pengubahan pada fitur ini demi keamanan data
  */
-include_once("database/orbit_bank_db.php");
+include_once("database/config.php");
 
 enum SessionCondtion {
     case loggedIn;
@@ -22,7 +22,7 @@ function isLoggedIn() {
 
 function login($username, $password) {
     if ($_SESSION["condition"] != SessionCondtion::loggedIn) {
-        $conn = dbConnect();
+        $conn = dbConnect("orbit_bank_db");
     
         $query = "SELECT users.* FROM users INNER JOIN accounts ON users.user_id = accounts.user_id
                     WHERE username = '$username' AND password = SHA2('$password', 224)";
@@ -56,7 +56,7 @@ function logout() {
 
 function register($name, $address, $username, $email, $password) {
     if ($_SESSION["condition"] != SessionCondtion::loggedIn) {
-        $conn = dbConnect();
+        $conn = dbConnect("orbit_bank_db");
         
         $query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', SHA2('$password', 224))";
         $result = mysqli_query($conn, $query);

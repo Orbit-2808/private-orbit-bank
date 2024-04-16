@@ -1,42 +1,44 @@
-// function
-function getDatas(urlReference) {
-    let datas;
-    $.ajax({
-        url: urlReference,
-        type: 'GET',
-        datatype: 'json',
-        success: function(ajax_result) {
-            datas = ajax_result;            
-        }
-    });
-    return datas;
-}
-
-// main
 // run when document ready
 $(document).ready(function() {
-    var parentURL = window.parent.location.href;
-    console.log(parentURL);
+    $('#lbl_kabupaten').hide();
+    $('#register_kabupaten').hide();
+    $('#lbl_kecamatan').hide();
+    $('#register_kecamatan').hide();
+    $('#lbl_kelurahan').hide();
+    $('#register_kelurahan').hide();
 
-    $('#kabupaten').hide();
-    $('#kecamatan').hide();
-    $('#kelurahan').hide();
-    $('#jalan').hide();
-
-    $('#provinsi').append('<option value="">Pilih</option>');
-    provinces = getDatas(parentURL + '/provinces.php');
-    for (let i = 0; i < provinces.length; i++) {
-        $('#provinsi').append('<option value="' + provinces[i].id + '">' + provinces[i].name + '</option>');
-    }
-
-    $('#provinsi').change(function () {
-        $('#kabupaten').slideDown();
-        let prov_id = $('#provinsi').val();
-
-        $("#kabupaten").html('');
-        let regency = getDatas(parentURL + 'regencies.php');
-        for (let i = 0; i < provinces.length; i++) {
-            $('#provinsi').append('<option value="' + provinces[i].id + '">' + provinces[i].name + '</option>');
+    $('#register_provinsi').append('<option value="">Pilih</option>');
+    $.ajax({
+        url: 'provinces.php',
+        type: 'GET',
+        datatype: 'json',
+        success: function(response) {
+            console.log(response);
+            for (let i = 0; i < response.length; i++) {
+                $('#register_provinsi').append('<option value="' + response[i].province_id + '">' + response[i].province_name + '</option>');
+            }
         }
+    });
+
+    $('#register_provinsi').change(function () {
+        $('#lbl_kabupaten').slideDown();
+        $('#register_kabupaten').slideDown();
+        $('#lbl_kecamatan').slideDown();
+        $('#register_kecamatan').slideDown();
+        $('#lbl_kelurahan').slideDown();
+        $('#register_kelurahan').slideDown();
+        let province_id = $('#register_provinsi').val();
+
+        $("#register_kabupaten").html('');
+        $.ajax({
+            url: 'regencies.php?province_id=' + province_id,
+            type: 'GET',
+            datatype: 'json',
+            success: function(response) {
+                for (let i = 0; i < response.length; i++) {
+                    $('#register_kabupaten').append('<option value="' + response[i].regency_id + '">' + response[i].regency_name + '</option>');
+                }
+            }
+        });
     });
 });
