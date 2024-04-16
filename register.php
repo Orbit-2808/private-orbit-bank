@@ -13,7 +13,7 @@ $_POST["address"] = $tempAddress;
 $sessionCond = register($_POST["name"], $_POST["address"], $_POST["username"], $_POST["email"], $_POST["password"]);
 if ($sessionCond == SessionCondtion::loggedIn) {
     echo "success" . $_SERVER['HTTP_HOST'];
-    header("Location: ../");
+    header("Location: index.php");
     die();
 } else {
     echo "fail";

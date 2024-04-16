@@ -29,7 +29,7 @@ include_once("controller/transaction.php");
         ?>
         
         <!-- Account -->
-        <form action="/auth.php" method="get"><input type="submit" class="btn btn-primary" name="submit" value="Logout"></form><br>
+        <form action="auth.php" method="get"><input type="submit" class="btn btn-primary" name="submit" value="Logout"></form><br>
         <table>
             <tr>
                 <td style="padding: 0px 20px 0px 0px;">Name</td>
@@ -113,7 +113,7 @@ include_once("controller/transaction.php");
                 default:
         ?>
         <h2>Log In</h2>
-        <form action="/auth.php" method="post">
+        <form action="auth.php" method="post">
             <label for="username" class="form-label">username</label>
             <input type="text" class="form-control" name="username" id="login_username">
             <label for="password" class="form-label">password</label>
