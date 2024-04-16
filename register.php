@@ -5,6 +5,7 @@ include_once("controller/auth.php");
 // header('Content-Type: application/json');
 // echo json_encode($_POST);
 
+// reformat the address to to string that have semicolon as sepator
 $tempAddress = implode(";", $_POST["address"]);
 unset($_POST["address"]);
 $_POST["address"] = $tempAddress;
