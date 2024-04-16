@@ -1,7 +1,7 @@
 <?php
 include_once("controller/auth.php");
 
-// // look json version
+// // check json encode version
 // header('Content-Type: application/json');
 // echo json_encode($_POST);
 
