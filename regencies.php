@@ -1,6 +1,5 @@
 <?php
-include_once("database/config.php"); // contain db config
-
+include_once("database/config.php");
 $conn = dbConnect("indonesian_regional_db");
 $province_id = $_GET['province_id'];
 $query = "SELECT * FROM regencies WHERE province_id = $province_id";
