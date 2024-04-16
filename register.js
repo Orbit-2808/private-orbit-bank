@@ -1,5 +1,6 @@
 // run when document ready
 $(document).ready(function() {
+    // hide input
     $('#lbl_kabupaten').hide();
     $('#register_kabupaten').hide();
     $('#lbl_kecamatan').hide();
@@ -7,6 +8,7 @@ $(document).ready(function() {
     $('#lbl_kelurahan').hide();
     $('#register_kelurahan').hide();
 
+    // append provinces
     $('#register_provinsi').append('<option value="">Pilih</option>');
     $.ajax({
         url: 'provinces.php',
@@ -20,6 +22,7 @@ $(document).ready(function() {
         }
     });
 
+    // when province get change val, change regency selection
     $('#register_provinsi').change(function () {
         $('#lbl_kabupaten').slideDown();
         $('#register_kabupaten').slideDown();
@@ -27,6 +30,7 @@ $(document).ready(function() {
         $('#register_kecamatan').slideDown();
         $('#lbl_kelurahan').slideDown();
         $('#register_kelurahan').slideDown();
+
         let province_id = $('#register_provinsi').val();
 
         $("#register_kabupaten").html('');
