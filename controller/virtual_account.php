@@ -1,6 +1,6 @@
 <?php
-include_once("database/config.php");
-include_once("controller/transaction.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/database/config.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/controller/transaction.php");
 
 function generateVirtualAccountNumber($receiverAccountNumber) {
     // concat date and receiver account number to get virtual account number
@@ -54,16 +54,17 @@ function editVirtualAccount($request, $virtualAccount) {
 
     $virtualAccountData = getVirtualAccountData($virtualAccount);
     
-    if(empty($request["receiver_account_number"]) == false)
+    if(empty($request["receiver_account_number"])) {
         $request["receiver_account_id"] = _getAccountId($request["receiver_account_number"], $conn);
+    }
 
 
     $updates = [
         'receiver_account_id' => $request["receiver_account_id"],
-        'virtual_account_number' => $request["virtual_account_number"],
         'amount' => $request["amount"],
         'information' => $request["information"],
-        'expired_date' => $request["expired_date"]
+        'expired_date' => $request["expired_date"],
+        'transaction_conditon' => $request["transaction_conditon"]
     ];
     
     // Loop through the updates array and construct the SET clause
@@ -82,12 +83,15 @@ function editVirtualAccount($request, $virtualAccount) {
         WHERE
         virtual_account_id = {$virtualAccountData["virtual_account_id"]}";
 
+    // echo $sql;
+
     // return $sql;
     $result = mysqli_query($conn, $sql);
     mysqli_close($conn);
 
     // get data
     $virtualAccountData = getVirtualAccountData($virtualAccount);
+
 
     return $virtualAccountData;
 }

@@ -1,5 +1,5 @@
 <?php
-include_once("database/config.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/database/config.php");
 
 enum TransactionType {
     case debit;
